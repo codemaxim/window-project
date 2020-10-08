@@ -33,6 +33,7 @@ public class FineDustMeasure {
     static{
         regionMap = new HashMap<String, String>();
         regionMap.put("충청북도", "충북");
+        regionMap.put("서울특별시", "서울");
     }
     public class FineDustVO {
         String region;
@@ -98,6 +99,7 @@ public class FineDustMeasure {
     }
 
     public String requestURL(String region) throws IOException{ //api에 요청하여 결과 값을 리턴함
+        Log.d("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA : ", region);
         StringBuilder urlBuilder = new StringBuilder("http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getCtprvnRltmMesureDnsty"); /*URL*/
         urlBuilder.append("?" + URLEncoder.encode("ServiceKey","UTF-8") + "=0e5b%2B1WHzmQXFa2iFaK4Rqs%2B8dz%2B08T3L8Q4Ko25dVLtS9NxbQGIR538RBMZI5Dob5Z8HB4DrJw0LmWk98Yckg%3D%3D"); /*Service Key*/
         urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("100", "UTF-8")); /*한 페이지 결과 수*/
