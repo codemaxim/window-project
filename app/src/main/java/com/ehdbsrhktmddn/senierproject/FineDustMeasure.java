@@ -41,6 +41,8 @@ public class FineDustMeasure {
         String pm10;
         String pm25;
 
+        public FineDustVO() {}
+
         public FineDustVO(String region, String dateTime, String pm10, String pm25) {
             // TODO Auto-generated constructor stub
             this.region = region;
@@ -74,6 +76,7 @@ public class FineDustMeasure {
         try {
             Document rs_xml = XmlParser.convertStringToXMLDocument(requestURL(region[0]));
             NodeList nList = rs_xml.getElementsByTagName("item");
+            FineDustVO rs = new FineDustVO();
             System.out.println("Node length : " + nList.getLength());
             for(int temp = 0 ; temp < nList.getLength() ; temp++) {
 
@@ -81,12 +84,21 @@ public class FineDustMeasure {
                 if(node.getNodeType() == Node.ELEMENT_NODE) {
                     Element e = (Element) node;
 
+                    if(!getTagValue("pm10Value", e).equals("-") && !getTagValue("pm25Value", e).equals("-")) { //항상 충북내의 일부 지역의 미세먼지 값으로 설정
+
+                        rs.pm10 = getTagValue("pm10Value", e);
+                        rs.pm10 = getTagValue("pm25Value", e);
+                    }
+
                     if(getTagValue("stationName", e).equals(region[1]) || temp == nList.getLength() - 1) {
                         //해당 동/읍이 관측이 안되면 맨 마지막 지역의 정보를 반환
-                        return new FineDustVO(getTagValue("stationName", e),
-                                getTagValue("dataTime", e),
-                                getTagValue("pm10Value", e),
-                                getTagValue("pm25Value", e));
+                        rs.dateTime = getTagValue("dataTime", e);
+                        rs.region = getTagValue("stationName", e);
+                        return rs;
+//                        return new FineDustVO(getTagValue("stationName", e),
+//                                getTagValue("dataTime", e),
+//                                getTagValue("pm10Value", e),
+//                                getTagValue("pm25Value", e));
                     }
 
                 }

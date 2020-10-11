@@ -115,7 +115,8 @@ public class MainActivity<BluetoothSPP> extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setTitle("IOT 자동환기 시스템");
-        showDialogForLocationServiceSetting();
+        if(!checkLocationServicesStatus())
+            showDialogForLocationServiceSetting();
         mLayout = (ConstraintLayout) findViewById(R.id.mLayout);
         mLayout.setBackgroundColor(Color.rgb(135, 206, 235));
         textViewReceive = (TextView) findViewById(R.id.textView15);
